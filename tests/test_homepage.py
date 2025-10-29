@@ -1,6 +1,4 @@
-from pages.homepage import HomePage
-
 def test_open_homepage(driver):
-    home = HomePage(driver)
-    home.open()
-    assert "ExpertIT" in home.get_title()
+    driver.get("https://www.expertit.in")
+    title = driver.title
+    assert "Expert IT" in title, f"Expected 'Expert IT' in title, but got: {title}"
