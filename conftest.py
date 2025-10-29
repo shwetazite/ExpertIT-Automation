@@ -1,17 +1,12 @@
 import pytest
-from selenium import webdriver
+from utils.driver_factory import get_driver
 
-@pytest.fixture(params=["chrome", "edge", "firefox"])
+def pytest_addoption(parser):
+    parser.addoption("--browser", action="store", default="chrome")
+
+@pytest.fixture
 def driver(request):
-    browser = request.param
-    if browser == "chrome":
-        driver = webdriver.Chrome()
-    elif browser == "edge":
-        driver = webdriver.Edge()
-    elif browser == "firefox":
-        driver = webdriver.Firefox()
-    else:
-        raise ValueError(f"Unsupported browser: {browser}")
-    driver.maximize_window()
+    browser = request.config.getoption("--browser")
+    driver = get_driver(browser)
     yield driver
     driver.quit()
